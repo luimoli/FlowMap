@@ -1,3 +1,5 @@
+import numpy as np
+
 # import pandas as pd
 # with open(path,'r') as f:
 #     # a = [line.rstrip() for line in f]
@@ -10,30 +12,29 @@
 # a = data.drop(['dwv_order_make_haikou_1.product_id','dwv_order_make_haikou_1.city_id','dwv_order_make_haikou_1.district','dwv_order_make_haikou_1.county','dwv_order_make_haikou_1.type','dwv_order_make_haikou_1.combo_type','dwv_order_make_haikou_1.traffic_type','dwv_order_make_haikou_1.passenger_count','dwv_order_make_haikou_1.driver_product_id','dwv_order_make_haikou_1.start_dest_distance','dwv_order_make_haikou_1.arrive_time','dwv_order_make_haikou_1.pre_total_fee','dwv_order_make_haikou_1.normal_time','dwv_order_make_haikou_1.product_1level','dwv_order_make_haikou_1.dest_lng','dwv_order_make_haikou_1.dest_lat','dwv_order_make_haikou_1.year','dwv_order_make_haikou_1.month','dwv_order_make_haikou_1.day'],axis=1)
 
 
-import numpy as np
-a = np.zeros((4,4,4))
-b1 = np.ones((2,4,4))
-b = np.array([[[5, 10, 15,1],
-	        [20, 25, 30,2],
-	        [35, 40, 45,3],
-            [35, 40, 45,4]],
+# a = np.zeros((4,4,4))
+# b1 = np.ones((2,4,4))
+# b = np.array([[[5, 10, 15,1],
+# 	        [20, 25, 30,2],
+# 	        [35, 40, 45,3],
+#             [35, 40, 45,4]],
 
-            [[5, 1, 1,1],
-	        [2, 2, 2,2],
-	        [9, 4, 4,3],
-            [3, 4, 4,4]]])
-c = np.array([[5, 1, 1,1],
-	        [2, 2, 2,2],
-	        [9, 4, 4,3],
-            [3, 4, 4,4]])
+#             [[5, 1, 1,1],
+# 	        [2, 2, 2,2],
+# 	        [9, 4, 4,3],
+#             [3, 4, 4,4]]])
+# c = np.array([[5, 1, 1,1],
+# 	        [2, 2, 2,2],
+# 	        [9, 4, 4,3],
+#             [3, 4, 4,4]])
 
-ar1 = np.array([[1,2,3], [4,5,6],[7,8,9]])
-ar2 = np.array([[7,8,9], [11,12,13],[7,8,9]])
+# ar1 = np.array([[1,2,3], [4,5,6],[7,8,9]])
+# ar2 = np.array([[7,8,9], [11,12,13],[7,8,9]])
 
-res = np.expand_dims(ar1,0)
-print(ar1.shape,ar2.shape)
-print(res)
-print(res.shape)
+# res = np.expand_dims(ar1,0)
+# print(ar1.shape,ar2.shape)
+# print(res)
+# print(res.shape)
 
 # a[2:4] = b
 # print(c.mean())
@@ -106,8 +107,7 @@ print(res.shape)
 # print(b)
 # print(c)
 
-from numpy import set_printoptions
-np.set_printoptions(threshold=np.inf)
+
 
 #--------------------test npy -------------------------------------
 city = 'cdu'
@@ -123,8 +123,18 @@ high_path1 = f'./{city}/{city}_in_{freq_str}_{str(16)}-{str(16)}.npy'
 # high_path2 = f'./xian_in/10_01_64.npy'
 # high_path3 = f'./xian_out/10_01_64.npy'
 
-# y = np.load(high_path)
-# y1 = np.load(high_path1)
+c1_path = '/data3/liumengmeng/FlowMap/adata/cdu_15min_64-64.npy'
+c2_path = '/data3/liumengmeng/FlowMap/adata/xian_15min_64-64.npy'
+
+# c1 = np.load(c1_path)
+# c2 = np.load(c2_path)
+
+# print(c1[100][0].mean())
+# print(c2[100][0].mean())
+
+# print(c1[100][0].sum() / c2[100][0].sum())
+
+
 
 # print(y[1000].mean())
 # print(y1[1000].mean())
@@ -162,9 +172,11 @@ high_path1 = f'./{city}/{city}_in_{freq_str}_{str(16)}-{str(16)}.npy'
 #     lis.append(y[i].sum() / y1[i].sum())
 
 
+
+
+#----------------------一维的GRU------------------------
 # import torch
 # import torch.nn as nn
-
 # # 定义一个单步的rnn
 # rnn_single = nn.RNNCell(input_size=100, hidden_size=200)
 # # 访问其中的参数
