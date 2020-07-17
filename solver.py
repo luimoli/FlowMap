@@ -5,8 +5,11 @@ import numpy as np
 from pandas import Series, DataFrame
 from tqdm import tqdm
 
-from cdu_map_inflow import all_file_gps,all_file_gps_nosave,time_index
+# from cdu_map_inflow import all_file_gps,all_file_gps_nosave
+from map_inoutflow import all_file_gps,all_file_gps_nosave
 from split_datasets import split_dataset
+from gps_process import time_index
+
 
 freq_str = '15min'
 # nx,ny = 64, 64

@@ -203,6 +203,9 @@ def all_data(df10,df11):
     return df
 
 def all_file_gps_nosave_v1(t_index, day_start,day_end_1,dataset,month,nx,ny,maxlon,minlon,maxlat,minlat): #pandas合并所有文件数据
+    '''
+    只是取消了保存npy
+    '''
     nlist = daylist(day_start,day_end_1) ##TODO!!!!!!
     # t_index = time_index('2016-11-01 00:00:00','2016-12-01 00:00:00','D')
     # data =pd.DataFrame(columns=('driver','order','time','lon','lat'))
@@ -228,8 +231,11 @@ def all_file_gps_nosave_v1(t_index, day_start,day_end_1,dataset,month,nx,ny,maxl
     return n_d_grid_in,n_d_grid_out
 
 
-
 def all_file_gps_nosave(t_index, day_start,day_end_1,dataset,month,nxc,nyc,nxf,nyf,maxlon,minlon,maxlat,minlat): #pandas合并所有文件数据
+    '''
+    1.取消了保存npy文件，直接return
+    2.读取一个月份的gps文件进行处理之后，可以直接生成这个月份的in-out flow的coarse图和fine图（共四个）
+    '''
     nlist = daylist(day_start,day_end_1) ##TODO!!!!!!
     # t_index = time_index('2016-11-01 00:00:00','2016-12-01 00:00:00','D')
     # data =pd.DataFrame(columns=('driver','order','time','lon','lat'))
