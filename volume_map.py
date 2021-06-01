@@ -1,4 +1,5 @@
-#----最初的计算flow的方法--------------
+# the initial ver to generate flow map
+# use the order information to calculate the occuring volume of vehicles
 
 import os
 import pandas as pd
@@ -8,9 +9,13 @@ from pandas import Series, DataFrame
 from tqdm import tqdm
 from map_hk import grid_fill,grid_fill_s
 
+from utils.gps_process import *
 # path = '/data3/liumengmeng/data_cdu/gps_20161101'
 
 def openfile_gps(path):
+    '''
+    selectively obtain the gps data
+    '''
     with open(path,'r') as f:
         df = pd.read_csv(f,names=['driver','order','time','lon','lat'])
         # df = df.drop(['driver'],axis=1)
@@ -18,6 +23,9 @@ def openfile_gps(path):
     return df
 
 def openfile_order(hpath):
+    '''
+    selectively obtain the gps data
+    '''
     with open(hpath,'r') as f:
         data = pd.read_csv(f,names=['order','time','time_down','lon','lat','lon1','lat1'])
     a = data.drop(['time_down','lon1','lat1'],axis=1)
@@ -32,10 +40,7 @@ def group(df):
         mintime = min(group['time'])
         ndf = group.loc[group['time'] == mintime]
         data = pd.concat([data,ndf],ignore_index=True)
-        # import ipdb; ipdb.set_trace()
     return data
-
-
 
 def daylist(ns,ne):#ne的值需要多加一天
     nlist = []
@@ -43,17 +48,6 @@ def daylist(ns,ne):#ne的值需要多加一天
         if i < 10:nlist.append( '0' + str(i))
         else:nlist.append(str(i))
     return nlist
-
-def time_index(mindtime,maxdtime,freq_str):#生成时间间隔的index
-    # mindtime = '2016-11-01 00:00:00'
-    # maxdtime = '2016-12-01 00:00:00'
-    tm_index = pd.date_range(start=mindtime, end=maxdtime,freq=freq_str) # 生成时间间隔的index
-    return tm_index
-# mindtime = '2016-11-01 00:00:00'
-# maxdtime = '2016-11-02 00:00:00'
-# tt = time_index(mindtime,maxdtime,'15min')
-# print(tt.shape)
-
 
 def select_by_geo(data,maxlon,minlon,maxlat,minlat):
     # data_s = data[(data['d_time_n'] >= '2017-05-01 00:00:00') & (data['d_time_n'] <= '2017-10-31 23:59:59')]
@@ -117,65 +111,13 @@ def grid_fill_s(grid,lon,lat,nx,ny,maxlon,minlon,maxlat,minlat):
             dic[(posx[i],posy[i])] = 1
             grid = grid_pos(posx[i],posy[i],grid,nx,ny)
     return grid
-    # if len(lon) == 1:
-    #     posx = int((lon[0]-minlon) // xfac)
-    #     posy = int((lat[0]-minlat) // yfac)
-    #     return grid_pos(posx,posy,grid,nx,ny)
-
-    # elif len(lon) == 2:
-    #     posx0,posy0 = int((lon[0]-minlon) // xfac),int((lat[0]-minlat) // yfac)
-    #     posx1,posy1 = int((lon[1]-minlon) // xfac),int((lat[1]-minlat) // yfac)
-    #     # print(posx0,posy0,posx1,posy1)
-    #     grid = grid_pos(posx0,posy0,grid,nx,ny)
-    #     if posx0 == posx1 and posy0 == posy1:pass
-    #     else:grid = grid_pos(posx1,posy1,grid,nx,ny)
-    #     return grid
-    # elif len(lon) == 3:
-    #     posx0,posy0 = int((lon[0]-minlon) // xfac),int((lat[0]-minlat) // yfac)
-    #     posx1,posy1 = int((lon[1]-minlon) // xfac),int((lat[1]-minlat) // yfac)
-    #     posx2,posy2 = int((lon[2]-minlon) // xfac),int((lat[2]-minlat) // yfac)
-    #     grid = grid_pos(posx0,posy0,grid,nx,ny)
-    #     if posx0 == posx1 and posy0 == posy1:pass
-    #     else:grid = grid_pos(posx1,posy1,grid,nx,ny)
-    #     if (posx2 == posx0 and posy2 == posy0) or (posx2 == posx1 and posy2 == posy1):pass
-    #     else:grid = grid_pos(posx2,posy2,grid,nx,ny)
-    #     return grid
-    # elif len(lon) == 4:
-    #     posx0,posy0 = int((lon[0]-minlon) // xfac),int((lat[0]-minlat) // yfac)
-    #     posx1,posy1 = int((lon[1]-minlon) // xfac),int((lat[1]-minlat) // yfac)
-    #     posx2,posy2 = int((lon[2]-minlon) // xfac),int((lat[2]-minlat) // yfac)
-    #     posx3,posy3 = int((lon[3]-minlon) // xfac),int((lat[3]-minlat) // yfac)
-    #     grid = grid_pos(posx0,posy0,grid,nx,ny)
-    #     if posx0 == posx1 and posy0 == posy1:pass
-    #     else:grid = grid_pos(posx1,posy1,grid,nx,ny)
-    #     if (posx2 == posx0 and posy2 == posy0) or (posx2 == posx1 and posy2 == posy1):pass
-    #     else:grid = grid_pos(posx2,posy2,grid,nx,ny)
-    #     if (posx3 == posx0 and posy3 == posy0) or (posx3 == posx1 and posy3 == posy1) or (posx3 == posx2 and posy3 == posy2):pass
-    #     else:grid = grid_pos(posx3,posy3,grid,nx,ny)
-    #     return grid
-    # else:
-    #     posx0,posy0 = int((lon[0]-minlon) // xfac),int((lat[0]-minlat) // yfac)
-    #     posx1,posy1 = int((lon[1]-minlon) // xfac),int((lat[1]-minlat) // yfac)
-    #     posx2,posy2 = int((lon[2]-minlon) // xfac),int((lat[2]-minlat) // yfac)
-    #     posx3,posy3 = int((lon[3]-minlon) // xfac),int((lat[3]-minlat) // yfac)
-    #     grid = grid_pos(posx0,posy0,grid,nx,ny)
-    #     if posx0 == posx1 and posy0 == posy1:pass
-    #     else:grid = grid_pos(posx1,posy1,grid,nx,ny)
-    #     if (posx2 == posx0 and posy2 == posy0) or (posx2 == posx1 and posy2 == posy1):pass
-    #     else:grid = grid_pos(posx2,posy2,grid,nx,ny)
-    #     if (posx3 == posx0 and posy3 == posy0) or (posx3 == posx1 and posy3 == posy1) or (posx3 == posx2 and posy3 == posy2):pass
-    #     else:grid = grid_pos(posx3,posy3,grid,nx,ny)
-    #     print(f'Attention:this interval is [len(lon)] =  {len(lon)}')
-    #     return grid
         
-
-
 
 
 #-------------------------------------------------------------------------------
 def map_fill(a,tm_index,save_npy_path,nx,ny,maxlon,minlon,maxlat,minlat):
     '''
-    a:data ; tm_index: time interval
+    a:data; tm_index: time interval serials
     '''
     final = np.zeros((len(tm_index)-1,ny,nx))
 
@@ -259,7 +201,7 @@ def all_file_gps(t_index, day_start,day_end_1,dataset,month,save_npy_path,nx,ny,
         tqdm.write(f'min:{min_map_none0(d_grid)},max:{max_map_none0(d_grid)}')
 
         np.save('./cdu_npy/'+str(month) + '_' + nlist[i]+'_15s.npy',d_grid) #TODO
-        import ipdb; ipdb.set_trace()
+
         n_d_grid[i*d_map_num:(i+1)*d_map_num] = d_grid
 
     np.save(save_npy_path,n_d_grid)

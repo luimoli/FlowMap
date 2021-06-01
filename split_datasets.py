@@ -38,44 +38,43 @@ def split_dataset_v1(x,y,lentrain,lenval,lentest, train_path,val_path,test_path)
     np.save(os.path.join(test_path,'Y.npy'),ytest)
 
 
+if __name__ == '__main__':
+    freq_str = '15min'
+    # nx,ny = 64,64
+
+    datafolder = 'adata'
+    # datafolder = 'cdunew'
+
+    npy_path = '/data3/liumengmeng/FlowMap/data_test/'
+
+    # city = 'cdu'
+    city = 'cdu'
+    #--------------------------------------------------------------------------
 
 
-freq_str = '15min'
-# nx,ny = 64,64
+    # high_path = f'../{datafolder}/{city}_{freq_str}_{str(64)}-{str(64)}.npy'
+    high_path = f'{npy_path}{city}_64-64.npy'
+    y = np.load(high_path)
+    # print('y:',y.shape)
+    # print(y[4200])
+    #--------------------------------------------------------------------
 
-datafolder = 'adata'
-# datafolder = 'cdunew'
+    # coarse_path = f'../{datafolder}/{city}_{freq_str}_{str(16)}-{str(16)}.npy'
+    coarse_path = f'{npy_path}{city}_16-16.npy'
+    x = np.load(coarse_path)
+    # print('x:',x.shape)
+    # print(x[0])
 
-npy_path = '/data3/liumengmeng/FlowMap/data_test/'
+    #----------------------------------------------------------------------
 
-# city = 'cdu'
-city = 'cdu'
-#--------------------------------------------------------------------------
-
-
-# high_path = f'../{datafolder}/{city}_{freq_str}_{str(64)}-{str(64)}.npy'
-high_path = f'{npy_path}{city}_64-64.npy'
-y = np.load(high_path)
-# print('y:',y.shape)
-# print(y[4200])
-#--------------------------------------------------------------------
-
-# coarse_path = f'../{datafolder}/{city}_{freq_str}_{str(16)}-{str(16)}.npy'
-coarse_path = f'{npy_path}{city}_16-16.npy'
-x = np.load(coarse_path)
-# print('x:',x.shape)
-# print(x[0])
-
-#----------------------------------------------------------------------
-
-namelist = ['train','valid','test']
-datapath ='/data3/liumengmeng/ORI/FM/data/cdu_test_solver/'
-# datapath = '/data3/liumengmeng/UrbanFM/data/xian_33d_14d_14d'
-fullpath = [os.path.join(datapath,i) for i in namelist]
-# for i in fullpath:os.makedirs(i)
+    namelist = ['train','valid','test']
+    datapath ='/data3/liumengmeng/ORI/FM/data/cdu_test_solver/'
+    # datapath = '/data3/liumengmeng/UrbanFM/data/xian_33d_14d_14d'
+    fullpath = [os.path.join(datapath,i) for i in namelist]
+    # for i in fullpath:os.makedirs(i)
 
 
-split_dataset(x,y,*fullpath)
+    split_dataset(x,y,*fullpath)
 
-# lentrain,lenval,lentest = 3168,1344,1344
-# split_dataset_v1(x,y,lentrain,lenval,lentest, *fullpath)
+    # lentrain,lenval,lentest = 3168,1344,1344
+    # split_dataset_v1(x,y,lentrain,lenval,lentest, *fullpath)

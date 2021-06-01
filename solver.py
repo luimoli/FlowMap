@@ -20,16 +20,18 @@ t_index_11 = time_index('2016-11-01 00:00:00','2016-12-01 00:00:00','D')
 def concat_2channel(inflowmap,outflowmap,nx,ny):
     '''
     concat channel:
-    例如:把[5xxx,16,16]的inflowmap和[5xxx,16,16]的outflowmap concat起来生成[5xxx,2,16,16]
+    inflow_map: [5xxx,16,16]
+    ouflow_map: [5xxx,16,16]  --> concat:[5xxx,2,16,16]
     '''
     re1 = np.expand_dims(inflowmap,1)
     re2 = np.expand_dims(outflowmap,1)
     assert len(re1) == len(re2)
-    print(re1.shape,re2.shape) 
-    res = np.zeros((len(re1),2,ny,nx)) #TODO
-    for i in range(len(re1)):
-        res[i] = np.row_stack((re1[i],re2[i]))
-    print(res.shape)
+    res = np.concatenate((re1,re2),1)
+    # print(re1.shape,re2.shape) 
+    # res = np.zeros((len(re1),2,ny,nx)) #TODO
+    # for i in range(len(re1)):
+    #     res[i] = np.row_stack((re1[i],re2[i]))
+    # print(res.shape)
     return res
 
 def gene_by_nxny(data_10_folder,data_11_folder,xycf,lonlat):
@@ -77,9 +79,10 @@ def generate(city, npy_path, data_path):
 
 
 
-data_path ='/data3/liumengmeng/ORI/FM/data/cdu_test_1'
-# data_path = '/data3/liumengmeng/UrbanFM/data/xian_15min_2-16-16_2-64-64'
-npy_path = '/data3/liumengmeng/FlowMap/data_test/'
-city = 'cdu'
+if __name__ == '__main__':
+    data_path ='/data3/liumengmeng/ORI/FM/data/cdu_test_1'
+    # data_path = '/data3/liumengmeng/UrbanFM/data/xian_15min_2-16-16_2-64-64'
+    npy_path = '/data3/liumengmeng/FlowMap/data_test/'
+    city = 'cdu'
 
-generate(city, npy_path, data_path)
+    generate(city, npy_path, data_path)

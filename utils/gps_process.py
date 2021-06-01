@@ -39,15 +39,15 @@ def daylist(ns,ne):#ne的值需要多加一天
         else:nlist.append(str(i))
     return nlist
 
-def time_index(mindtime,maxdtime,freq_str):#生成时间间隔的index
+def time_index(mindtime,maxdtime,freq_str):
+    '''
+    generate time index from mindtime to maxtime by interval(freq_str)
+    '''
     # mindtime = '2016-11-01 00:00:00'
     # maxdtime = '2016-12-01 00:00:00'
     tm_index = pd.date_range(start=mindtime, end=maxdtime,freq=freq_str) # 生成时间间隔的index
     return tm_index
-# mindtime = '2016-11-01 00:00:00'
-# maxdtime = '2016-11-02 00:00:00'
-# tt = time_index(mindtime,maxdtime,'15min')
-# print(tt.shape)
+
 
 
 def select_by_geo(data,maxlon,minlon,maxlat,minlat):
@@ -60,3 +60,10 @@ def unix_to_date(df,old_name,new_name):
     # df['d_time_n'] = pd.to_datetime(df['time'],unit='s',origin=pd.Timestamp('1970-01-01 08:00:00'))
     df[new_name] = pd.to_datetime(df[old_name],unit='s',origin=pd.Timestamp('1970-01-01 08:00:00'))
     return df
+
+
+if __name__ == '__main__':
+    mindtime = '2016-11-01 00:00:00'
+    maxdtime = '2016-11-02 00:00:00'
+    tt = time_index(mindtime,maxdtime,'15min')
+    print(tt.shape)

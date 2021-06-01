@@ -4,10 +4,10 @@ import os
 import pandas as pd
 import time
 import numpy as np
-from pandas import Series, DataFrame
+# from pandas import Series, DataFrame
 from tqdm import tqdm
 
-from gps_process import *
+from utils.gps_process import *
 
 
 def grid_fill(lon,lat,nx,ny,maxlon,minlon,maxlat,minlat):
@@ -92,6 +92,9 @@ def map_fill(a,tm_index,save_npy_path,nx,ny,maxlon,minlon,maxlat,minlat):
     return final
 
 def map_fill_s(a,tm_index,nx,ny,maxlon,minlon,maxlat,minlat):
+    '''
+    fill a map with inflow and outlow
+    '''
     final_in = np.zeros((len(tm_index)-1,ny,nx)) #(interval,48,48)
     final_out = np.zeros((len(tm_index)-1,ny,nx))
     for i in (range(len(tm_index)-1)):
